@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+/* 
+@import 'assets/css/style.css';
+@import 'assets/css/plugins.css';
+
+@import 'assets/css/arch-skin.css';
+*/
+
+.whatsapp {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  bottom: 90px;
+  right: 30px;
+  background-color: #25d366;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  font-size: 26px;
+  z-index: 100;
+}
+
+.whatsapp-icon {
+  margin-top: 13px;
+}
