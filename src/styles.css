@@ -1,10 +1,6 @@
-/* 
-@import 'assets/css/style.css';
-@import 'assets/css/plugins.css';
-
-@import 'assets/css/arch-skin.css';
-*/
-
+@import "swiper/modules/free-mode/free-mode.min.css";
+@import "swiper/modules/navigation/navigation.scss";
+@import "swiper/modules/thumbs/thumbs.min.css";
 .whatsapp {
   position: fixed;
   width: 50px;
@@ -21,4 +17,59 @@
 
 .whatsapp-icon {
   margin-top: 13px;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+.swiper-slide {
+  font-size: 18px;
+  color: #fff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 40px 60px;
+}
+
+.parallax-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 130%;
+  height: 100%;
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-position: center;
+}
+
+.swiper-slide .title {
+  font-size: 41px;
+  font-weight: 300;
+}
+
+.swiper-slide .subtitle {
+  font-size: 21px;
+}
+
+.swiper-slide .text {
+  font-size: 14px;
+  max-width: 400px;
+  line-height: 1.3;
+}
+
+.mt-1 {
+  margin-top: 1%;
+}
+
+.mb-1 {
+  margin-bottom: 1%;
+}
+
+pr-05 {
+  padding-right: 0.5%;
+}
+pl-05 {
+  padding-left: 0.5%;
 }

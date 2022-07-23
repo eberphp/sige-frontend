@@ -1,0 +1,11 @@
+<ng-container *ngIf="publication.selecciona == 'Imagen';else no_image">
+    <a [href]="publication.url" target="_blank">
+        <img [src]="storageUrl + '/img/publicaciones/' + publication.imagen|safe" alt="" style="width: 100%;">
+    </a>
+</ng-container>
+
+<ng-template #no_image>
+    <div [outerHTML]="publication.linkVideo"></div>
+</ng-template>
+
+<div [outerHTML]="publication.texto"></div>

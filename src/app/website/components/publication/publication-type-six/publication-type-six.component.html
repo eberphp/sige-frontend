@@ -1,0 +1,25 @@
+<div class="slider slider-prlx text-center">
+    <div class="swiper-container parallax-slider">
+        <div class="swiper-wrapper altutra">
+
+            <swiper (swiper)="onSwiper($event)" [loop]="true" [speed]="600" [parallax]="true" [pagination]="{
+                    clickable: true,
+                    type: 'fraction'
+                }" [navigation]="true" [autoHeight]="true" (slideChange)="onSlideChange()">
+
+                <ng-template swiperSlide *ngFor="let image of publication.images">
+
+                    <div class="bg-img valign"
+                        [ngStyle]="{'background-image': 'url(' + storageUrl +'/img/publicaciones/galeria/'+ image.imagen + ')'}">
+                    </div>
+
+                </ng-template>
+            </swiper>
+        </div>
+
+    </div>
+</div>
+
+
+<br>
+<a href="#" target="_blank"><span [outerHTML]="publication.texto"></span></a>

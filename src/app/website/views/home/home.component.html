@@ -1,44 +1,44 @@
-<!-- slider -->
-
 <header class="slider slider-prlx fixed-slider text-center">
     <div class="swiper-container parallax-slider">
         <div class="swiper-wrapper altutra" *ngIf="sliders">
-            <div class="swiper-slide" *ngFor="let slider of sliders">
-                <div class="bg-img valign" [attr.data-background]="storageUrl +'/img/sliders/'+ slider.imagen|safe"
-                    data-overlay-dark="6">
-                    <div class="container">
-                        <div class="row justify-content-center" style="float: left!important;">
-                            <div class="col-lg-8 col-md-10">
-                                <div class="caption center mt-30">
-                                    <p> {{ slider.texto}}</p>
-                                    <a href="" class="butn bord curve mt-30">
-                                        <span>Ver</span>
-                                    </a>
+            <swiper (swiper)="onSwiper($event)" [loop]="true" [speed]="600" [autoplay]="{
+                delay: 3000,
+                disableOnInteraction: false
+                }" [parallax]="true" [pagination]="{
+                  clickable: true,
+                  type: 'fraction'
+                }" [navigation]="true" (slideChange)="onSlideChange()" class="mySwiper">
+                <div slot="container-start" class="parallax-bg"
+                    style="background-image: url(https://swiperjs.com/demos/images/nature-1.jpg)"
+                    data-swiper-parallax="-23%">
+                </div>
+                <ng-template swiperSlide *ngFor="let slider of sliders">
+                    <div class="bg-img valign"
+                        [ngStyle]="{'background-image': 'url(' + storageUrl +'/img/sliders/'+ slider.imagen + ')'}"
+                        data-overlay-dark="6">
+                        <div class="container">
+                            <div class="row justify-content-center" style="float: left!important;">
+                                <div class="col-lg-8 col-md-10">
+                                    <div class="caption center mt-30">
+                                        <div [outerHTML]="slider.texto"></div>
+                                        <a *ngIf="slider.url" [href]="slider.url" target="_blank"
+                                            class="butn bord curve mt-30">
+                                            <span>Ver</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </ng-template>
+            </swiper>
         </div>
-
-        <!-- slider setting -->
-        <div class="setone setwo">
-            <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
-                <i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="swiper-button-prev swiper-nav-ctrl prev-ctrl cursor-pointer">
-                <i class="fas fa-chevron-left"></i>
-            </div>
-        </div>
-        <div class="swiper-pagination top botm "></div>
-
-        <div class="social-icon">
-            <a href=""><i class="fab fa-facebook-f" style="color: white"></i></a>
-            <a href=""><i class="fab fa-twitter" style="color: white"></i></a>
-            <a href=""><i class="fab fa-instagram" style="color: white"></i></a>
-            <a href=""><i class="fab fa-whatsapp" style="color: white"></i></a>
-            <a href=""><i class="fab fa-linkedin" style="color: white"></i></a>
+        <div class="social-icon" *ngIf="networks">
+            <a href=""><i class=" fab fa-facebook-f" [ngStyle]="{'color' :networks.colorFondo }"></i></a>
+            <a href=""><i class="fab fa-twitter" [ngStyle]="{'color' :networks.colorFondo }"></i></a>
+            <a href=""><i class="fab fa-instagram" [ngStyle]="{'color' :networks.colorFondo }"></i></a>
+            <a href=""><i class="fab fa-whatsapp" [ngStyle]="{'color' :networks.colorFondo }"></i></a>
+            <a href=""><i class="fab fa-linkedin" [ngStyle]="{'color' :networks.colorFondo }"></i></a>
         </div>
     </div>
 </header>
@@ -107,79 +107,6 @@
         </div>
     </section>
 
-    <ng-template #publicationConfigTwo let-publication="publication">
-        <ng-container *ngIf="publication.selecciona == 'Imagen';else noImage1">
-            <img [src]="storageUrl + '/img/publicaciones/' + publication.imagen|safe" alt="" style="width: 100%;">
-        </ng-container>
-        <ng-template #noImage1>
-            <div [outerHTML]="publication.linkVideo"></div>
-        </ng-template>
-        <br>
-        <div [outerHTML]="publication.texto"></div>
-    </ng-template>
-
-    <ng-template #publicationConfigThree let-publication="publication">
-        <ng-container *ngIf="publication.selecciona == 'Imagen';else noImage2">
-            <a [href]="publication.url" target="_blank">
-                <img [src]="storageUrl + '/img/publicaciones/' + publication.imagen|safe" alt="" style="width: 100%;">
-            </a>
-        </ng-container>
-
-        <ng-template #noImage2>
-            <div [outerHTML]="publication.linkVideo"></div>
-        </ng-template>
-        <br>
-        <div [outerHTML]="publication.texto"></div>
-    </ng-template>
-
-    <ng-template #publicationConfigFive let-publication="publication">
-        <ng-container *ngIf="publication.selecciona == 'Imagen';else no_image">
-            <a [href]="publication.url" target="_blank">
-                <img [src]="storageUrl + '/img/publicaciones/' + publication.imagen|safe" alt="" style="width: 100%;">
-            </a>
-        </ng-container>
-
-        <ng-template #no_image>
-            <div [outerHTML]="publication.linkVideo"></div>
-        </ng-template>
-
-        <div [outerHTML]="publication.texto"></div>
-    </ng-template>
-
-    <ng-template #publicationConfigSix let-publication="publication">
-        <div class="slider slider-prlx text-center">
-            <div class="swiper-container parallax-slider">
-                <div class="swiper-wrapper altutra">
-
-                    <div class="swiper-slide" style="min-height: 43vh!important;"
-                        *ngFor="let image of publication.images">
-
-                        <div class="bg-img valign"
-                            style="background-size: 100%!important;background-position: center!important;"
-                            [attr.data-background]="storageUrl + '/img/publicaciones/galeria/' + image.imagen|safe"
-                            data-overlay-dark="6">
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="setone setwo">
-                    <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                    <div class="swiper-button-prev swiper-nav-ctrl prev-ctrl cursor-pointer">
-                        <i class="fas fa-chevron-left"></i>
-                    </div>
-                </div>
-                <div class="swiper-pagination top botm "></div>
-
-            </div>
-        </div>
-
-        <br>
-        <a href="#" target="_blank"><span [outerHTML]="publication.texto"></span></a>
-    </ng-template>
-
     <section class="services bords section-padding pt-10">
         <div class="container" style="max-width: 100%;">
             <div class="row" *ngIf="publications">
@@ -187,203 +114,141 @@
 
                     <ng-container *ngIf="publication.modeloBloque == 'Bloque 1' ">
 
-                        <div *ngIf="publication.idConfiguracion == 1" class="col-lg-12 wow fadeInLeft"
-                            style="margin-top: 1%;margin-bottom: 1%;">
+                        <div *ngIf="publication.idConfiguracion == 1" class="col-lg-12 wow fadeInLeft mt-1 mb-1">
                             <div [outerHTML]="publication.texto"></div>
                         </div>
 
-                        <div *ngIf="publication.idConfiguracion == 2" class="col-lg-12 wow fadeInLeft"
-                            style="margin-top: 1%;margin-bottom: 1%;">
-                            <ng-container *ngTemplateOutlet="publicationConfigTwo; context: {publication: publication}">
-                            </ng-container>
+                        <div *ngIf="publication.idConfiguracion == 2" class="col-lg-12 wow fadeInLeft mt-1 mb-1">
+                            <app-publication-type-two [publication]="publication"></app-publication-type-two>
                         </div>
 
-                        <div class="col-lg-12 wow fadeInLeft" *ngIf="publication.idConfiguracion == 3"
-                            style="margin-top: 1%;margin-bottom: 1%;">
-                            <ng-container
-                                *ngTemplateOutlet="publicationConfigThree; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-12 wow fadeInLeft mt-1 mb-1" *ngIf="publication.idConfiguracion == 3">
+                            <app-publication-type-three [publication]="publication"></app-publication-type-three>
                         </div>
 
-                        <div class="col-lg-12 col-sm-12" *ngIf="publication.idConfiguracion == 5"
-                            style="margin-top: 1%;margin-bottom: 1%;">
-                            <ng-container
-                                *ngTemplateOutlet="publicationConfigFive; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-12 col-sm-12 mt-1 mb-1" *ngIf="publication.idConfiguracion == 5">
+                            <app-publication-type-five [publication]="publication"></app-publication-type-five>
                         </div>
 
-                        <div *ngIf="publication.idConfiguracion == 6" class="col-lg-12 col-sm-12"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngTemplateOutlet="publicationConfigSix; context: {publication: publication}">
-                            </ng-container>
+                        <div *ngIf="publication.idConfiguracion == 6" class="col-lg-12 col-sm-12 mt-1 mb-1 pr-05 pl-05">
+                            <app-publication-type-six [publication]="publication"></app-publication-type-six>
                         </div>
                     </ng-container>
 
                     <ng-container *ngIf="publication.modeloBloque == 'Bloque 2'">
 
-                        <div class="col-lg-6 col-sm-6" *ngIf="publication.idConfiguracion == 1"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div *ngIf="publication.idConfiguracion == 1" class="col-lg-6 col-sm-6 mt-1 mb-1 pr-05 pl-05">
                             <div [outerHTML]="publication.texto"></div>
                         </div>
 
-                        <div class="col-lg-6 col-6" *ngIf="publication.idConfiguracion == 2"
-                            style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngTemplateOutlet="publicationConfigTwo; context: {publication: publication}">
-                            </ng-container>
+                        <div *ngIf="publication.idConfiguracion == 2" class="col-lg-6 col-6 mt-1 mb-1 pr-05 pl-05"
+                            style="text-align: left">
+                            <app-publication-type-two [publication]="publication"></app-publication-type-two>
                         </div>
 
-                        <div class="col-lg-6 col-6" *ngIf="publication.idConfiguracion == 3"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container
-                                *ngTemplateOutlet="publicationConfigThree; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-6 col-6 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 3">
+                            <app-publication-type-three [publication]="publication"></app-publication-type-three>
                         </div>
 
-                        <div class="col-lg-6 col-6" *ngIf="publication.idConfiguracion == 5"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container
-                                *ngTemplateOutlet="publicationConfigFive; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-6 col-6 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 5">
+                            <app-publication-type-five [publication]="publication"></app-publication-type-five>
                         </div>
 
-                        <div class="col-lg-6 col-sm-12" *ngIf="publication.idConfiguracion == 6"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngTemplateOutlet="publicationConfigSix; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-6 col-sm-12 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 6">
+                            <app-publication-type-six [publication]="publication"></app-publication-type-six>
                         </div>
                     </ng-container>
 
                     <ng-container *ngIf="publication.modeloBloque == 'Bloque 3'">
-                        <div class="col-lg-4 col-sm-12" *ngIf="publication.idConfiguracion == 1"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-4 col-sm-12 mt-1 mb-1 pl-05 pr-05" *ngIf="publication.idConfiguracion == 1">
                             <div [outerHTML]="publication.texto"></div>
                         </div>
 
-                        <div class="col-lg-4 col-sm-12" *ngIf="publication.idConfiguracion == 2"
-                            style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngTemplateOutlet="publicationConfigTwo; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-4 col-sm-12 mt-1 mb-1 pl-05 pr-05" *ngIf="publication.idConfiguracion == 2"
+                            style="text-align: left;">
+                            <app-publication-type-two [publication]="publication"></app-publication-type-two>
                         </div>
 
-                        <div class="col-lg-4 col-sm-12" *ngIf="publication.idConfiguracion == 3"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container
-                                *ngTemplateOutlet="publicationConfigThree; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-4 col-sm-12 mt-1 mb-1 pl-05 pr-05" *ngIf="publication.idConfiguracion == 3">
+                            <app-publication-type-three [publication]="publication"></app-publication-type-three>
                         </div>
 
-                        <div class="col-lg-4 col-sm-12" *ngIf="publication.idConfiguracion == 5"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container
-                                *ngTemplateOutlet="publicationConfigFive; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-4 col-sm-12 mt-1 mb-1 pl-05 pr-05" *ngIf="publication.idConfiguracion == 5">
+                            <app-publication-type-five [publication]="publication"></app-publication-type-five>
                         </div>
 
-
-                        <div class="col-lg-4 col-sm-12" *ngIf="publication.idConfiguracion == 6"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngTemplateOutlet="publicationConfigSix; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-4 col-sm-12 mt-1 mb-1 pl-05 pr-05" *ngIf="publication.idConfiguracion == 6">
+                            <app-publication-type-six [publication]="publication"></app-publication-type-six>
                         </div>
 
                     </ng-container>
 
                     <ng-container *ngIf="publication.modeloBloque == 'Bloque 4'">
-                        <div class="col-lg-3 col-6" *ngIf="publication.idConfiguracion == 1"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-3 col-6 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 1">
                             <div [outerHTML]="publication.texto"></div>
                         </div>
 
-                        <div class="col-lg-3 col-6" *ngIf="publication.idConfiguracion == 2"
-                            style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngTemplateOutlet="publicationConfigTwo; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-3 col-6 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 2"
+                            style="text-align: left;">
+                            <app-publication-type-two [publication]="publication"></app-publication-type-two>
                         </div>
 
-                        <div class="col-lg-3 col-6" *ngIf="publication.idConfiguracion == 3"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container
-                                *ngTemplateOutlet="publicationConfigThree; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-3 col-6 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 3">
+                            <app-publication-type-three [publication]="publication"></app-publication-type-three>
                         </div>
 
-                        <div class="col-lg-3 col-6" *ngIf="publication.idConfiguracion == 5"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container
-                                *ngTemplateOutlet="publicationConfigFive; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-3 col-6 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 5">
+                            <app-publication-type-five [publication]="publication"></app-publication-type-five>
                         </div>
 
-                        <div class="col-lg-3 col-6" *ngIf="publication.idConfiguracion == 6"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngTemplateOutlet="publicationConfigSix; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-3 col-6 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 6">
+                            <app-publication-type-six [publication]="publication"></app-publication-type-six>
                         </div>
                     </ng-container>
 
                     <ng-container *ngIf="publication.modeloBloque == 'Bloque 5'">
-                        <div class="col-lg-4 col-sm-6" *ngIf="publication.idConfiguracion == 1"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-4 col-sm-6 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 1">
                             <div [outerHTML]="publication.texto"></div>
                         </div>
 
-                        <div class="col-lg-4 col-sm-6" *ngIf="publication.idConfiguracion == 2"
-                            style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngTemplateOutlet="publicationConfigTwo; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-4 col-sm-6 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 2"
+                            style="text-align: left;">
+                            <app-publication-type-two [publication]="publication"></app-publication-type-two>
                         </div>
 
-                        <div class="col-lg-4 col-sm-6" *ngIf="publication.idConfiguracion == 3"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container
-                                *ngTemplateOutlet="publicationConfigThree; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-4 col-sm-6 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 3">
+                            <app-publication-type-three [publication]="publication"></app-publication-type-three>
                         </div>
 
-                        <div class="col-lg-4 col-sm-6" *ngIf="publication.idConfiguracion == 5"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container
-                                *ngTemplateOutlet="publicationConfigFive; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-4 col-sm-6 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 5">
+                            <app-publication-type-five [publication]="publication"></app-publication-type-five>
                         </div>
 
-                        <div class="col-lg-4 col-sm-6" *ngIf="publication.idConfiguracion == 6"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngTemplateOutlet="publicationConfigSix; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-4 col-sm-6 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 6">
+                            <app-publication-type-six [publication]="publication"></app-publication-type-six>
                         </div>
                     </ng-container>
 
                     <ng-container *ngIf="publication.modeloBloque == 'Bloque 6'">
-                        <div class="col-lg-8 col-sm-12" *ngIf="publication.idConfiguracion == 1"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-8 col-sm-12 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 1">
                             <div [outerHTML]="publication.texto"></div>
                         </div>
 
-                        <div class="col-lg-8 col-sm-12" *ngIf="publication.idConfiguracion == 2"
-                            style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngTemplateOutlet="publicationConfigTwo; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-8 col-sm-12 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 2"
+                            style="text-align: left;">
+                            <app-publication-type-two [publication]="publication"></app-publication-type-two>
                         </div>
 
-                        <div class="col-lg-8 col-sm-12" *ngIf="publication.idConfiguracion == 3"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container
-                                *ngTemplateOutlet="publicationConfigThree; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-8 col-sm-12 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 3">
+                            <app-publication-type-three [publication]="publication"></app-publication-type-three>
                         </div>
 
-                        <div class="col-lg-8 col-sm-12" *ngIf="publication.idConfiguracion == 5"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container
-                                *ngTemplateOutlet="publicationConfigFive; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-8 col-sm-12 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 5">
+                            <app-publication-type-five [publication]="publication"></app-publication-type-five>
                         </div>
 
-                        <div class="col-lg-8 col-sm-12" *ngIf="publication.idConfiguracion == 6"
-                            style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngTemplateOutlet="publicationConfigSix; context: {publication: publication}">
-                            </ng-container>
+                        <div class="col-lg-8 col-sm-12 mt-1 mb-1 pr-05 pl-05" *ngIf="publication.idConfiguracion == 6">
+                            <app-publication-type-six [publication]="publication"></app-publication-type-six>
                         </div>
                     </ng-container>
                 </ng-container>
