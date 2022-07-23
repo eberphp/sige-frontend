@@ -1,3 +1,5 @@
+import { Image } from './image.model';
+
 export interface Publication {
   id: number;
   idUsuario: number;
@@ -13,6 +15,7 @@ export interface Publication {
   modeloBloque: string;
   selecciona: string;
   imagen: string;
+  images: Image[];
   linkVideo: null;
   created_at: Date;
   updated_at: Date;

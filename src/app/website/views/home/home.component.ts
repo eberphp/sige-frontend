@@ -7,6 +7,7 @@ import { Slider } from '../../models/slider.model';
 import { Testimonial } from '../../models/testimonial.model';
 import { Title } from '../../models/title.model';
 import { TextService } from '../../services/text.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ import { TextService } from '../../services/text.service';
 export class HomeComponent implements OnInit {
   images!: any[];
 
+  storageUrl: string = environment.baseStorageUrl;
   get data(): Data {
     return this._textService.info?.data!;
   }

@@ -3,7 +3,7 @@
 
         <!-- Logo -->
         <a class="logo" href="">
-            <img [src]="'img/bannerPrincipal/'+ data.bannerPrincipal" alt="logo">
+            <img [src]="storageUrl +'/img/bannerPrincipal/'+ data.bannerPrincipal|safe" alt="logo">
         </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

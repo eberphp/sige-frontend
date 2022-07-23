@@ -15,5 +15,5 @@ export interface InfoDto {
   services: Service[];
   publications: Publication[];
   testimonials: Testimonial[];
-  title: Title;
+  title: Title | null;
 }

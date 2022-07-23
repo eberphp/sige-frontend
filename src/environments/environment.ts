@@ -4,5 +4,5 @@ export const environment = {
   production: false,
   baseApiUrl: '/assets/',
   serverUrl: domainUrl,
-  baseStorageUrl: domainUrl + 'storage/',
+  baseStorageUrl: domainUrl,
 };

@@ -4,7 +4,8 @@
     <div class="swiper-container parallax-slider">
         <div class="swiper-wrapper altutra" *ngIf="sliders">
             <div class="swiper-slide" *ngFor="let slider of sliders">
-                <div class="bg-img valign" data-background="" data-overlay-dark="6">
+                <div class="bg-img valign" [attr.data-background]="storageUrl +'/img/sliders/'+ slider.imagen|safe"
+                    data-overlay-dark="6">
                     <div class="container">
                         <div class="row justify-content-center" style="float: left!important;">
                             <div class="col-lg-8 col-md-10">
@@ -75,14 +76,15 @@
                         </select>
                     </div>
                 </div>
-                @endif
-                <!--<div class="col-lg-4 wow fadeInLeft" data-wow-delay=".9s">
+                <!--
+                <div class="col-lg-4 wow fadeInLeft" data-wow-delay=".9s">
                     <div class="item-box">
                         <span class="icon pe-7s-display1"></span>
                         <h6>Social media Marketing</h6>
                         <p>Tempore corrupti temporibus fuga earum asperiores fugit.</p>
                     </div>
-                </div>-->
+                </div>
+                -->
             </div>
         </div>
     </section>
@@ -92,21 +94,91 @@
             <div class="row">
                 <div class="col-lg-4 wow fadeInLeft" data-wow-delay=".5s" *ngFor="let button of buttons">
                     <div class="form-group has-error has-danger controls">
-                        <!-- 
-                        <a [href]="button.url" class="btn " 
-                            target="_blank" 
-                            style="width: 100%;background : {{button.colorFondo}}; color:white;height: auto;padding: 0%;">
-                            {{button.nombre}}
-                        </a> 
-                        -->
-                        <a [href]="button.url" class="btn " target="_blank">
+
+                        <a [href]="button.url" class="btn " target="_blank"
+                            style="width: 100%;color:white;height: auto;padding: 0%;"
+                            [ngStyle]="{'background' : button.colorFondo}">
                             {{button.nombre}}
                         </a>
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <ng-template #publicationConfigTwo let-publication="publication">
+        <ng-container *ngIf="publication.selecciona == 'Imagen';else noImage1">
+            <img [src]="storageUrl + '/img/publicaciones/' + publication.imagen|safe" alt="" style="width: 100%;">
+        </ng-container>
+        <ng-template #noImage1>
+            <div [outerHTML]="publication.linkVideo"></div>
+        </ng-template>
+        <br>
+        <div [outerHTML]="publication.texto"></div>
+    </ng-template>
+
+    <ng-template #publicationConfigThree let-publication="publication">
+        <ng-container *ngIf="publication.selecciona == 'Imagen';else noImage2">
+            <a [href]="publication.url" target="_blank">
+                <img [src]="storageUrl + '/img/publicaciones/' + publication.imagen|safe" alt="" style="width: 100%;">
+            </a>
+        </ng-container>
+
+        <ng-template #noImage2>
+            <div [outerHTML]="publication.linkVideo"></div>
+        </ng-template>
+        <br>
+        <div [outerHTML]="publication.texto"></div>
+    </ng-template>
+
+    <ng-template #publicationConfigFive let-publication="publication">
+        <ng-container *ngIf="publication.selecciona == 'Imagen';else no_image">
+            <a [href]="publication.url" target="_blank">
+                <img [src]="storageUrl + '/img/publicaciones/' + publication.imagen|safe" alt="" style="width: 100%;">
+            </a>
+        </ng-container>
+
+        <ng-template #no_image>
+            <div [outerHTML]="publication.linkVideo"></div>
+        </ng-template>
+
+        <div [outerHTML]="publication.texto"></div>
+    </ng-template>
+
+    <ng-template #publicationConfigSix let-publication="publication">
+        <div class="slider slider-prlx text-center">
+            <div class="swiper-container parallax-slider">
+                <div class="swiper-wrapper altutra">
+
+                    <div class="swiper-slide" style="min-height: 43vh!important;"
+                        *ngFor="let image of publication.images">
+
+                        <div class="bg-img valign"
+                            style="background-size: 100%!important;background-position: center!important;"
+                            [attr.data-background]="storageUrl + '/img/publicaciones/galeria/' + image.imagen|safe"
+                            data-overlay-dark="6">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="setone setwo">
+                    <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="swiper-button-prev swiper-nav-ctrl prev-ctrl cursor-pointer">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                </div>
+                <div class="swiper-pagination top botm "></div>
+
+            </div>
+        </div>
+
+        <br>
+        <a href="#" target="_blank"><span [outerHTML]="publication.texto"></span></a>
+    </ng-template>
 
     <section class="services bords section-padding pt-10">
         <div class="container" style="max-width: 100%;">
@@ -115,92 +187,35 @@
 
                     <ng-container *ngIf="publication.modeloBloque == 'Bloque 1' ">
 
-                        <div class="col-lg-12 wow fadeInLeft" *ngIf="publication.idConfiguracion == 1"
+                        <div *ngIf="publication.idConfiguracion == 1" class="col-lg-12 wow fadeInLeft"
                             style="margin-top: 1%;margin-bottom: 1%;">
                             <div [outerHTML]="publication.texto"></div>
                         </div>
 
-
-                        <div class="col-lg-12 wow fadeInLeft" *ngIf="publication.idConfiguracion == 2"
+                        <div *ngIf="publication.idConfiguracion == 2" class="col-lg-12 wow fadeInLeft"
                             style="margin-top: 1%;margin-bottom: 1%;">
-                            <ng-container *ngIf="publication.selecciona == 'Imagen';else no_image">
-                                <img src="'img/publicaciones/'{{publication.imagen}}" alt="" style="width: 100%;">
+                            <ng-container *ngTemplateOutlet="publicationConfigTwo; context: {publication: publication}">
                             </ng-container>
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
                         </div>
 
                         <div class="col-lg-12 wow fadeInLeft" *ngIf="publication.idConfiguracion == 3"
                             style="margin-top: 1%;margin-bottom: 1%;">
-                            <ng-container *ngIf="publication.selecciona == 'Imagen';else no_image">
-                                <a [href]="publication.url" target="_blank">
-                                    <img src="'img/publicaciones/'.{{publication.imagen}}" alt="" style="width: 100%;">
-                                </a>
+                            <ng-container
+                                *ngTemplateOutlet="publicationConfigThree; context: {publication: publication}">
                             </ng-container>
-
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
                         </div>
 
                         <div class="col-lg-12 col-sm-12" *ngIf="publication.idConfiguracion == 5"
                             style="margin-top: 1%;margin-bottom: 1%;">
-                            <ng-container *ngIf="publication.selecciona == 'Imagen';else no_image">
-                                <a [href]="publication.url" target="_blank">
-                                    <img src="'img/publicaciones/'.{{publication.imagen}}" alt="" style="width: 100%;">
-                                </a>
+                            <ng-container
+                                *ngTemplateOutlet="publicationConfigFive; context: {publication: publication}">
                             </ng-container>
-
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-
-                            <div [outerHTML]="publication.texto"></div>
-
                         </div>
 
-                        <div class="col-lg-12 col-sm-12 " *ngIf="publication.idConfiguracion == 6"
+                        <div *ngIf="publication.idConfiguracion == 6" class="col-lg-12 col-sm-12"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <div class="slider slider-prlx text-center">
-                                <!-- <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?> -->
-
-                                <div class="swiper-container parallax-slider">
-                                    <div class="swiper-wrapper altutra">
-
-                                        <div class="swiper-slide" style="min-height: 43vh!important;"
-                                            *ngFor="let image of images">
-                                            <!-- 
-                                            <div class="bg-img valign"
-                                                style="background-size: 100%!important;background-position: center!important;"
-                                                data-background="'img/publicaciones/galeria/'.{{image.imagen}}"
-                                                data-overlay-dark="6">
-                                            </div> 
-                                            -->
-                                        </div>
-                                    </div>
-
-                                    <!-- slider setting -->
-                                    <div class="setone setwo">
-                                        <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </div>
-                                        <div class="swiper-button-prev swiper-nav-ctrl prev-ctrl cursor-pointer">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-pagination top botm "></div>
-
-                                </div>
-                            </div>
-
-                            <br>
-                            <a href="#" target="_blank"><span [outerHTML]="publication.texto"></span></a>
+                            <ng-container *ngTemplateOutlet="publicationConfigSix; context: {publication: publication}">
+                            </ng-container>
                         </div>
                     </ng-container>
 
@@ -213,83 +228,28 @@
 
                         <div class="col-lg-6 col-6" *ngIf="publication.idConfiguracion == 2"
                             style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngIf="publication.selecciona == 'Imagen';else no_image">
-                                <img src="'img/publicaciones/'{{publication.imagen}}" alt="" style="width: 100%;">
+                            <ng-container *ngTemplateOutlet="publicationConfigTwo; context: {publication: publication}">
                             </ng-container>
-
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
                         </div>
-
 
                         <div class="col-lg-6 col-6" *ngIf="publication.idConfiguracion == 3"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <a [href]="publication.url" *ngIf="publication.selecciona == 'Imagen';else no_image"
-                                target="_blank">
-                                <img src="'img/publicaciones/'.{{publication.imagen}}" alt="" style="width: 100%;">
-                            </a>
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
+                            <ng-container
+                                *ngTemplateOutlet="publicationConfigThree; context: {publication: publication}">
+                            </ng-container>
                         </div>
 
                         <div class="col-lg-6 col-6" *ngIf="publication.idConfiguracion == 5"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <a *ngIf="publication.selecciona == 'Imagen';else no_image" href="" target="_blank">
-                                <img src="'img/publicaciones/'.{{publication.imagen}}" alt="" style="width: 100%;">
-                            </a>
-
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
+                            <ng-container
+                                *ngTemplateOutlet="publicationConfigFive; context: {publication: publication}">
+                            </ng-container>
                         </div>
 
                         <div class="col-lg-6 col-sm-12" *ngIf="publication.idConfiguracion == 6"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <div class="slider slider-prlx text-center">
-                                <!-- <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?> -->
-
-                                <div class="swiper-container parallax-slider">
-                                    <div class="swiper-wrapper altutra">
-
-                                        <div class="swiper-slide" style="min-height: 43vh!important;"
-                                            *ngFor="let image of images">
-                                            <!-- 
-                                            <div class="bg-img valign"
-                                                style="background-size: 100%!important;background-position: center!important;"
-                                                data-background="'img/publicaciones/galeria/'.{{image.imagen}}"
-                                                data-overlay-dark="6">
-                                            </div> 
-                                        -->
-                                        </div>
-                                    </div>
-
-
-                                    <!-- slider setting -->
-                                    <div class="setone setwo">
-                                        <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </div>
-                                        <div class="swiper-button-prev swiper-nav-ctrl prev-ctrl cursor-pointer">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-pagination top botm "></div>
-
-                                </div>
-                            </div>
-
-                            <br>
-                            <a href="#" target="_blank"><span [outerHTML]="publication.texto"></span></a>
+                            <ng-container *ngTemplateOutlet="publicationConfigSix; context: {publication: publication}">
+                            </ng-container>
                         </div>
                     </ng-container>
 
@@ -301,82 +261,29 @@
 
                         <div class="col-lg-4 col-sm-12" *ngIf="publication.idConfiguracion == 2"
                             style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngIf="publication.selecciona == 'Imagen';else no_image">
-                                <img src="'img/publicaciones/'{{publication.imagen}}" alt="" style="width: 100%;">
+                            <ng-container *ngTemplateOutlet="publicationConfigTwo; context: {publication: publication}">
                             </ng-container>
-
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
                         </div>
 
                         <div class="col-lg-4 col-sm-12" *ngIf="publication.idConfiguracion == 3"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <a [href]="publication.url" *ngIf="publication.selecciona == 'Imagen';else no_image"
-                                target="_blank">
-                                <img src="'img/publicaciones/'.{{publication.imagen}}" alt="" style="width: 100%;">
-                            </a>
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
+                            <ng-container
+                                *ngTemplateOutlet="publicationConfigThree; context: {publication: publication}">
+                            </ng-container>
                         </div>
 
                         <div class="col-lg-4 col-sm-12" *ngIf="publication.idConfiguracion == 5"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <a *ngIf="publication.selecciona == 'Imagen';else no_image" href="" target="_blank">
-                                <img src="'img/publicaciones/'.{{publication.imagen}}" alt="" style="width: 100%;">
-                            </a>
-
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
+                            <ng-container
+                                *ngTemplateOutlet="publicationConfigFive; context: {publication: publication}">
+                            </ng-container>
                         </div>
 
 
                         <div class="col-lg-4 col-sm-12" *ngIf="publication.idConfiguracion == 6"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <div class="slider slider-prlx text-center">
-                                <!-- <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?> -->
-
-                                <div class="swiper-container parallax-slider">
-                                    <div class="swiper-wrapper altutra">
-
-                                        <div class="swiper-slide" style="min-height: 43vh!important;"
-                                            *ngFor="let image of images">
-                                            <!-- 
-                                                <div class="bg-img valign"
-                                                    style="background-size: 100%!important;background-position: center!important;"
-                                                    data-background="'img/publicaciones/galeria/'.{{image.imagen}}"
-                                                    data-overlay-dark="6">
-                                                </div> 
-                                            -->
-                                        </div>
-                                    </div>
-
-                                    <!-- slider setting -->
-                                    <div class="setone setwo">
-                                        <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </div>
-                                        <div class="swiper-button-prev swiper-nav-ctrl prev-ctrl cursor-pointer">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-pagination top botm "></div>
-
-                                </div>
-                            </div>
-
-                            <br>
-                            <a href="#" target="_blank"><span [outerHTML]="publication.texto"></span></a>
+                            <ng-container *ngTemplateOutlet="publicationConfigSix; context: {publication: publication}">
+                            </ng-container>
                         </div>
 
                     </ng-container>
@@ -389,81 +296,28 @@
 
                         <div class="col-lg-3 col-6" *ngIf="publication.idConfiguracion == 2"
                             style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngIf="publication.selecciona == 'Imagen';else no_image">
-                                <img src="'img/publicaciones/'{{publication.imagen}}" alt="" style="width: 100%;">
+                            <ng-container *ngTemplateOutlet="publicationConfigTwo; context: {publication: publication}">
                             </ng-container>
-
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
                         </div>
 
                         <div class="col-lg-3 col-6" *ngIf="publication.idConfiguracion == 3"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <a [href]="publication.url" *ngIf="publication.selecciona == 'Imagen';else no_image"
-                                target="_blank">
-                                <img src="'img/publicaciones/'.{{publication.imagen}}" alt="" style="width: 100%;">
-                            </a>
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
+                            <ng-container
+                                *ngTemplateOutlet="publicationConfigThree; context: {publication: publication}">
+                            </ng-container>
                         </div>
 
                         <div class="col-lg-3 col-6" *ngIf="publication.idConfiguracion == 5"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <a *ngIf="publication.selecciona == 'Imagen';else no_image" href="" target="_blank">
-                                <img src="'img/publicaciones/'.{{publication.imagen}}" alt="" style="width: 100%;">
-                            </a>
-
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
+                            <ng-container
+                                *ngTemplateOutlet="publicationConfigFive; context: {publication: publication}">
+                            </ng-container>
                         </div>
 
                         <div class="col-lg-3 col-6" *ngIf="publication.idConfiguracion == 6"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <div class="slider slider-prlx text-center">
-                                <!-- <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?> -->
-
-                                <div class="swiper-container parallax-slider">
-                                    <div class="swiper-wrapper altutra">
-
-                                        <div class="swiper-slide" style="min-height: 43vh!important;"
-                                            *ngFor="let image of images">
-                                            <!-- 
-                                                <div class="bg-img valign"
-                                                    style="background-size: 100%!important;background-position: center!important;"
-                                                    data-background="'img/publicaciones/galeria/'.{{image.imagen}}"
-                                                    data-overlay-dark="6">
-                                                </div> 
-                                            -->
-                                        </div>
-                                    </div>
-
-                                    <!-- slider setting -->
-                                    <div class="setone setwo">
-                                        <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </div>
-                                        <div class="swiper-button-prev swiper-nav-ctrl prev-ctrl cursor-pointer">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-pagination top botm "></div>
-
-                                </div>
-                            </div>
-
-                            <br>
-                            <a href="#" target="_blank"><span [outerHTML]="publication.texto"></span></a>
+                            <ng-container *ngTemplateOutlet="publicationConfigSix; context: {publication: publication}">
+                            </ng-container>
                         </div>
                     </ng-container>
 
@@ -475,81 +329,28 @@
 
                         <div class="col-lg-4 col-sm-6" *ngIf="publication.idConfiguracion == 2"
                             style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngIf="publication.selecciona == 'Imagen';else no_image">
-                                <img src="'img/publicaciones/'{{publication.imagen}}" alt="" style="width: 100%;">
+                            <ng-container *ngTemplateOutlet="publicationConfigTwo; context: {publication: publication}">
                             </ng-container>
-
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
                         </div>
 
                         <div class="col-lg-4 col-sm-6" *ngIf="publication.idConfiguracion == 3"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <a [href]="publication.url" *ngIf="publication.selecciona == 'Imagen';else no_image"
-                                target="_blank">
-                                <img src="'img/publicaciones/'.{{publication.imagen}}" alt="" style="width: 100%;">
-                            </a>
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
+                            <ng-container
+                                *ngTemplateOutlet="publicationConfigThree; context: {publication: publication}">
+                            </ng-container>
                         </div>
 
                         <div class="col-lg-4 col-sm-6" *ngIf="publication.idConfiguracion == 5"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <a *ngIf="publication.selecciona == 'Imagen';else no_image" href="" target="_blank">
-                                <img src="'img/publicaciones/'.{{publication.imagen}}" alt="" style="width: 100%;">
-                            </a>
-
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
+                            <ng-container
+                                *ngTemplateOutlet="publicationConfigFive; context: {publication: publication}">
+                            </ng-container>
                         </div>
 
                         <div class="col-lg-4 col-sm-6" *ngIf="publication.idConfiguracion == 6"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <div class="slider slider-prlx text-center">
-                                <!-- <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?> -->
-
-                                <div class="swiper-container parallax-slider">
-                                    <div class="swiper-wrapper altutra">
-
-                                        <div class="swiper-slide" style="min-height: 43vh!important;"
-                                            *ngFor="let image of images">
-                                            <!-- 
-                                                <div class="bg-img valign"
-                                                    style="background-size: 100%!important;background-position: center!important;"
-                                                    data-background="'img/publicaciones/galeria/'.{{image.imagen}}"
-                                                    data-overlay-dark="6">
-                                                </div> 
-                                            -->
-                                        </div>
-                                    </div>
-
-                                    <!-- slider setting -->
-                                    <div class="setone setwo">
-                                        <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </div>
-                                        <div class="swiper-button-prev swiper-nav-ctrl prev-ctrl cursor-pointer">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-pagination top botm "></div>
-
-                                </div>
-                            </div>
-
-                            <br>
-                            <a href="#" target="_blank"><span [outerHTML]="publication.texto"></span></a>
+                            <ng-container *ngTemplateOutlet="publicationConfigSix; context: {publication: publication}">
+                            </ng-container>
                         </div>
                     </ng-container>
 
@@ -561,81 +362,28 @@
 
                         <div class="col-lg-8 col-sm-12" *ngIf="publication.idConfiguracion == 2"
                             style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <ng-container *ngIf="publication.selecciona == 'Imagen';else no_image">
-                                <img src="'img/publicaciones/'{{publication.imagen}}" alt="" style="width: 100%;">
+                            <ng-container *ngTemplateOutlet="publicationConfigTwo; context: {publication: publication}">
                             </ng-container>
-
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
                         </div>
 
                         <div class="col-lg-8 col-sm-12" *ngIf="publication.idConfiguracion == 3"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <a [href]="publication.url" *ngIf="publication.selecciona == 'Imagen';else no_image"
-                                target="_blank">
-                                <img src="'img/publicaciones/'.{{publication.imagen}}" alt="" style="width: 100%;">
-                            </a>
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
+                            <ng-container
+                                *ngTemplateOutlet="publicationConfigThree; context: {publication: publication}">
+                            </ng-container>
                         </div>
 
                         <div class="col-lg-8 col-sm-12" *ngIf="publication.idConfiguracion == 5"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <a *ngIf="publication.selecciona == 'Imagen';else no_image" href="" target="_blank">
-                                <img src="'img/publicaciones/'.{{publication.imagen}}" alt="" style="width: 100%;">
-                            </a>
-
-                            <ng-template #no_image>
-                                <div [outerHTML]="publication.linkVideo"></div>
-                            </ng-template>
-                            <br>
-                            <div [outerHTML]="publication.texto"></div>
+                            <ng-container
+                                *ngTemplateOutlet="publicationConfigFive; context: {publication: publication}">
+                            </ng-container>
                         </div>
 
                         <div class="col-lg-8 col-sm-12" *ngIf="publication.idConfiguracion == 6"
                             style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
-                            <div class="slider slider-prlx text-center">
-                                <!-- <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?> -->
-
-                                <div class="swiper-container parallax-slider">
-                                    <div class="swiper-wrapper altutra">
-
-                                        <div class="swiper-slide" style="min-height: 43vh!important;"
-                                            *ngFor="let image of images">
-                                            <!-- 
-                                                <div class="bg-img valign"
-                                                    style="background-size: 100%!important;background-position: center!important;"
-                                                    data-background="'img/publicaciones/galeria/'.{{image.imagen}}"
-                                                    data-overlay-dark="6">
-                                                </div> 
-                                            -->
-                                        </div>
-                                    </div>
-
-                                    <!-- slider setting -->
-                                    <div class="setone setwo">
-                                        <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </div>
-                                        <div class="swiper-button-prev swiper-nav-ctrl prev-ctrl cursor-pointer">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-pagination top botm "></div>
-
-                                </div>
-                            </div>
-
-                            <br>
-                            <a href="#" target="_blank"><span [outerHTML]="publication.texto"></span></a>
+                            <ng-container *ngTemplateOutlet="publicationConfigSix; context: {publication: publication}">
+                            </ng-container>
                         </div>
                     </ng-container>
                 </ng-container>
@@ -661,7 +409,7 @@
                                 <div class="swiper-slide" *ngFor="let testimonial of testimonials">
                                     <div class="content wow noraidus fadeInUp" data-wow-delay=".3s">
                                         <div class="item-img bg-img wow imago" style="text-align: center">
-                                            <img src="'img/testimonios/'.{{testimonial.imagen}}" alt=""
+                                            <img [src]="storageUrl + '/img/testimonios/' + testimonial.imagen" alt=""
                                                 style="height: 200px;width: auto;">
 
                                             <p [outerHTML]="testimonial.texto"></p>

@@ -5,9 +5,10 @@ import { HomeComponent } from './views/home/home.component';
 import { WebsiteRoutingModule } from './website-routing.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { SafePipe } from './pipes/safe.pipe';
 
 @NgModule({
-  declarations: [MainComponent, HomeComponent, NavbarComponent, FooterComponent],
+  declarations: [MainComponent, HomeComponent, NavbarComponent, FooterComponent, SafePipe],
   imports: [CommonModule, WebsiteRoutingModule],
 })
 export class WebsiteModule {}
